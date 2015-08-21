@@ -1,0 +1,62 @@
+{% block relation_form_widget %}
+    <select
+        id="{{ form.vars['id'] }}"
+        name="{{ form.vars['full_name'] }}"
+            {{ form.vars['multiple'] ? 'multiple="multiple"' : '' }}
+        style="width: 100%"
+    >
+        {% for item in form.vars['value'] %}
+            <option value="{{ item.id }}" selected="selected">{{ attribute(item, form.vars['query_field']) }}</option>
+        {% endfor %}
+    </select>
+
+    <script>
+        $("#{{ form.vars['id'] }}").select2({
+            ajax: {
+                url: "{{ path('relation_form_query') }}",
+                method: 'post',
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                    console.log(params);
+                    return {
+                        query: { {{ form.vars['query_field'] }}: params.term }, // search term
+                        entityName: {{ form.vars['entity_name'] | json_encode | raw }},
+                        fields: {{ form.vars['fields'] | json_encode | raw }}
+                    }
+                },
+                processResults: function (data, query) {
+                    console.log(query);
+                    for (var i in data) {
+                        data[i]._hilighted = data[i][{{ form.vars['query_field'] | json_encode | raw }}].replace(query.term, '<b>' + query.term + '</b>');
+                    }
+                    return {
+                        results: data
+                    }
+                },
+                cache: true
+            },
+            escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+            minimumInputLength: 1,
+            templateResult: formatRepo, // omitted for brevity, see the source of this page
+            templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
+        });
+
+        function formatRepo (repo) {
+            console.log(repo);
+            if (repo.loading) return repo.text;
+
+            var markup = 'entities:<br>';
+
+            markup += repo.id + ':' + repo._hilighted + '<br>';
+            return markup;
+        }
+
+        function formatRepoSelection (repo) {
+            console.log(repo);
+            var title = repo[{{ form.vars['query_field'] | json_encode | raw }}];
+            console.log(repo);
+            return title || repo.text;
+        }
+    </script>
+{% endblock%}

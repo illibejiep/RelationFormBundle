@@ -1,0 +1,6 @@
+services:
+  relation_form.form.relation:
+    class: RelationFormBundle\Form\Type\RelationType
+    arguments: [@doctrine.orm.entity_manager]
+    tags:
+      - { name:form.type, alias:relation_form }

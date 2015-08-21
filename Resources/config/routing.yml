@@ -1,0 +1,4 @@
+relation_form_query:
+    path:     /query
+    methods: [post,get]
+    defaults: { _controller: RelationFormBundle:Default:index }
