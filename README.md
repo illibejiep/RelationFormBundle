@@ -17,3 +17,13 @@ Then add in AppKernel.php
     return $bundles;
 //...
 ```
+
+add route in app/config/routing.yml
+
+```
+//...
+relation_form:
+    resource: "@RelationFormBundle/Resources/config/routing.yml"
+    prefix:   /relation_form
+//...
+```
