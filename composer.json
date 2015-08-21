@@ -1,0 +1,21 @@
+{
+    "name": "illibejiep/relation-form-bundle",
+    "type": "symfony-bundle",
+    "description": "Form type for relation fields",
+    "keywords": [ "form", "relation", "many_to_many", "one_to_many", "bundle" ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Vasilii Lapin",
+            "email": "illibejiep@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "RelationFormBundle\\": ""
+        }
+    }
+}
